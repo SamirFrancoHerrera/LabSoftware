@@ -151,20 +151,20 @@ classDiagram
         + __str__(): str
     }
 
-    Usuario "1..*" -- "1" Ingreso : tiene
-    Usuario "1..*" -- "1" Gasto : tiene
-    Usuario "1..*" -- "1" Deuda : tiene
-    Usuario "1..*" -- "1" Activo : tiene
-    Usuario "1..*" -- "1" EstrategiaFinanciera : tiene
+    Usuario "1..*" -- "1" Ingreso : tiene_ingresos
+    Usuario "1..*" -- "1" Gasto : tiene_gastos
+    Usuario "1..*" -- "1" Deuda : tiene_deudas
+    Usuario "1..*" -- "1" Activo : tiene_activos
+    Usuario "1..*" -- "1" EstrategiaFinanciera : tiene_estrategias
 
-    TipoGasto "1" -- "1..*" Gasto : tipos
-    TipoDeuda "1" -- "1..*" Deuda : tipos
-    TipoActivo "1" -- "1..*" Activo : tipos
-    ObjetivoFinanciero "1" -- "1" EstrategiaFinanciera : objetivos
-    PlazoFinanciero "1" -- "1" EstrategiaFinanciera : plazos
+    TipoGasto "1" -- "1..*" Gasto : clasifica_gastos
+    TipoDeuda "1" -- "1..*" Deuda : clasifica_deudas
+    TipoActivo "1" -- "1..*" Activo : clasifica_activos
+    ObjetivoFinanciero "1" -- "1" EstrategiaFinanciera : define_objetivo
+    PlazoFinanciero "1" -- "1" EstrategiaFinanciera : define_plazo
 
-    Deuda "1" -- "1" Usuario : usuario
-    Gasto "1" -- "1" Usuario : usuario
-    Ingreso "1" -- "1" Usuario : usuario
-    Activo "1" -- "1" Usuario : usuario
-    EstrategiaFinanciera "1" -- "1" Usuario : usuario
+    Deuda "1" -- "1" Usuario : usuario_deuda
+    Gasto "1" -- "1" Usuario : usuario_gasto
+    Ingreso "1" -- "1" Usuario : usuario_ingreso
+    Activo "1" -- "1" Usuario : usuario_activo
+    EstrategiaFinanciera "1" -- "1" Usuario : usuario_estrategia
