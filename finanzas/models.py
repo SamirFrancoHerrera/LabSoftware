@@ -62,7 +62,7 @@ class TipoGasto(models.Model):
 
 class Gasto(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    tipo_gasto = models.ForeignKey(TipoGasto, on_delete=models.CASCADE)
+    tipo_gasto = models.ForeignKey(TipoGasto, on_delete=models.CASCADE, null=True, blank=True)  # Agrega null=True y blank=True
     monto = models.DecimalField(max_digits=10, decimal_places=2, validators=[validate_positive])
 
     def __str__(self):
@@ -77,7 +77,7 @@ class TipoDeuda(models.Model):
 
 class Deuda(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    tipo_deuda = models.ForeignKey(TipoDeuda, on_delete=models.CASCADE)
+    tipo_deuda = models.ForeignKey(TipoDeuda, on_delete=models.CASCADE, null=True, blank=True)
     tipo_cuota = models.BooleanField(default=True)  # True: fija, False: variable
     numero_total_cuotas = models.IntegerField()
     cuotas_restantes = models.IntegerField()
@@ -103,7 +103,7 @@ class TipoActivo(models.Model):
 
 class Activo(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    tipo_activo = models.ForeignKey(TipoActivo, on_delete=models.CASCADE)
+    tipo_activo = models.ForeignKey(TipoActivo, on_delete=models.CASCADE, null=True, blank=True)
     valor_activo = models.DecimalField(max_digits=10, decimal_places=2)
     genera_ingresos_pasivos = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 

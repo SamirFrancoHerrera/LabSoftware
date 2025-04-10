@@ -1,5 +1,4 @@
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets, filters
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -8,22 +7,13 @@ from rest_framework.response import Response
 from django.contrib.auth import authenticate
 
 from finanzas.models import (
-    Usuario, Ingreso, Gasto, Activo, Deuda, TipoGasto,
-    TipoDeuda, TipoActivo, ObjetivoFinanciero, PlazoFinanciero, EstrategiaFinanciera
+    Usuario, Ingreso, Gasto, Activo, Deuda
 )
 
 from .serializers import (
     UsuarioSerializer, IngresoSerializer, GastoSerializer,
-    ActivoSerializer, DeudaSerializer, TipoGastoSerializer,
-    TipoDeudaSerializer, TipoActivoSerializer,
-    ObjetivoFinancieroSerializer, PlazoFinancieroSerializer,
-    EstrategiaFinancieraSerializer
+    ActivoSerializer, DeudaSerializer
 )
-
-# 📌 Página de bienvenida a la API
-@csrf_exempt
-def home(request):
-    return JsonResponse({"message": "¡Bienvenido a Crezco API!"})
 
 # 📌 Autenticación personalizada para obtener el token de usuario
 class CustomAuthToken(ObtainAuthToken):
@@ -83,39 +73,3 @@ class DeudaViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Deuda.objects.filter(usuario=self.request.user)
-
-# 📌 ViewSet para Tipos de Gasto
-class TipoGastoViewSet(viewsets.ModelViewSet):
-    queryset = TipoGasto.objects.all()
-    serializer_class = TipoGastoSerializer
-    permission_classes = [IsAuthenticated]
-
-# 📌 ViewSet para Tipos de Activo
-class TipoActivoViewSet(viewsets.ModelViewSet):
-    queryset = TipoActivo.objects.all()
-    serializer_class = TipoActivoSerializer
-    permission_classes = [IsAuthenticated]
-
-# 📌 ViewSet para Tipos de Deuda
-class TipoDeudaViewSet(viewsets.ModelViewSet):
-    queryset = TipoDeuda.objects.all()
-    serializer_class = TipoDeudaSerializer
-    permission_classes = [IsAuthenticated]
-
-# 📌 ViewSet para Objetivos Financieros
-class ObjetivoFinancieroViewSet(viewsets.ModelViewSet):
-    queryset = ObjetivoFinanciero.objects.all()
-    serializer_class = ObjetivoFinancieroSerializer
-    permission_classes = [IsAuthenticated]
-
-# 📌 ViewSet para Plazos Financieros
-class PlazoFinancieroViewSet(viewsets.ModelViewSet):
-    queryset = PlazoFinanciero.objects.all()
-    serializer_class = PlazoFinancieroSerializer
-    permission_classes = [IsAuthenticated]
-
-# 📌 ViewSet para Estrategias Financieras
-class EstrategiaFinancieraViewSet(viewsets.ModelViewSet):
-    queryset = EstrategiaFinanciera.objects.all()
-    serializer_class = EstrategiaFinancieraSerializer
-    permission_classes = [IsAuthenticated]

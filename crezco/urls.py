@@ -16,10 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from api.views import home  # Importamos la vista home desde api/views.py
 
 urlpatterns = [
-    path('', home, name="home"),  # Página de inicio (Esto maneja la URL raíz "/")
-    path('admin/', admin.site.urls), # Ruta del panel de administración
-    path('api/', include('api.urls')),  # Prefijo /api/ para la API (Esto maneja "/api/")
+    path('admin/', admin.site.urls),
+    path('', include('finanzas.urls')),  # Incluye las URLs de la aplicación finanzas
 ]

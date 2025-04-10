@@ -1,0 +1,146 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard de Finanzas</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'finanzas/css/styles.css' %}">
+    <style>
+        .dashboard-container {
+            display: flex;
+            height: 80vh; /* Ajusta la altura según necesites */
+        }
+
+        .form-section {
+            flex: 0 0 30%; /* Ocupa el 30% del ancho */
+            padding: 20px;
+            border-right: 1px solid #ccc;
+        }
+
+        .visualization-section {
+            flex: 1; /* Ocupa el resto del ancho */
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centra la gráfica horizontalmente */
+        }
+
+        #combinedForm label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        #combinedForm input[type="text"],
+        #combinedForm input[type="number"],
+        #combinedForm select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+
+        #combinedForm button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #inventarioGrafica {
+            width: 80%;
+            max-width: 600px; /* Ajusta el tamaño máximo de la gráfica */
+            margin-bottom: 20px;
+        }
+
+        #dataTabla {
+            width: 80%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        #dataTabla th, #dataTabla td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        #dataTabla th {
+            background-color: #f2f2f2;
+        }
+
+        #mensaje {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="form-section">
+            <h2>Agregar Transacción</h2>
+            <form id="combinedForm" method="post" data-url="{% url 'agregar_transaccion' %}">
+                {% csrf_token %}
+
+                <div>
+                    <label for="tipo_transaccion">Tipo de Transacción:</label>
+                    <select id="tipo_transaccion" name="tipo_transaccion" required>
+                        <option value="">Seleccionar</option>
+                        <option value="ingreso">Ingreso</option>
+                        <option value="gasto">Gasto</option>
+                        <option value="activo">Activo</option>
+                        <option value="deuda">Deuda</option>
+                    </select>
+                </div>
+
+                <div id="ingresoFields" style="display: none;">
+                    <h3>Ingreso</h3>
+                    <label for="montoMensual">Monto Mensual:</label>
+                    <input type="number" id="montoMensual" name="montoMensual" step="0.01">
+                    <label for="esVariable">¿Es Variable?</label>
+                    <input type="checkbox" id="esVariable" name="esVariable">
+                </div>
+
+                <div id="gastoFields" style="display: none;">
+                    <h3>Gasto</h3>
+                    <label for="gasto_monto">Monto:</label>
+                    <input type="number" id="gasto_monto" name="gasto_monto" step="0.01">
+                </div>
+
+                <div id="activoFields" style="display: none;">
+                    <h3>Activo</h3>
+                    <label for="valorActivo">Valor del Activo:</label>
+                    <input type="number" id="valorActivo" name="valorActivo" step="0.01">
+                    <label for="generaIngresosPasivos">¿Genera Ingresos Pasivos?</label>
+                    <input type="checkbox" id="generaIngresosPasivos" name="generaIngresosPasivos">
+                </div>
+
+                <div id="deudaFields" style="display: none;">
+                    <h3>Deuda</h3>
+                    <label for="tipo_cuota">¿Cuota Fija?</label>
+                    <input type="checkbox" id="tipo_cuota" name="tipo_cuota">
+                    <label for="numero_total_cuotas">Número Total de Cuotas:</label>
+                    <input type="number" id="numero_total_cuotas" name="numero_total_cuotas">
+                    <label for="cuotas_restantes">Cuotas Restantes:</label>
+                    <input type="number" id="cuotas_restantes" name="cuotas_restantes">
+                    <label for="pago_mensual">Pago Mensual:</label>
+                    <input type="number" id="pago_mensual" name="pago_mensual" step="0.01">
+                    <label for="saldo_pendiente">Saldo Pendiente:</label>
+                    <input type="number" id="saldo_pendiente" name="saldo_pendiente" step="0.01">
+                </div>
+
+                <button type="submit">Agregar</button>
+                <div id="mensaje"></div>
+            </form>
+        </div>
+        <div class="visualization-section">
+            <h2>Resumen Financiero</h2>
+            <canvas id="financialChart"></canvas>
+        </div>
+    </div>
+
+    <script src="{% static 'finanzas/js/dashboard.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
